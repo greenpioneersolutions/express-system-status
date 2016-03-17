@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="fragment" content="!">
+    <title>System Status</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <style>
+        /* This helps the ng-show/ng-hide animations start at the right place. */
+        /* Since Angular has this but needs to load, this gives us the class early. */
+        .ng-hide { display: none!important; }
+    </style>
+</head>
+<body ng-app="myApp"  ng-controller="Ctrl as vm">
+  <div ng-include="vm.location"></div>   
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script>
+    var myApp = angular.module('myApp', []);
+	myApp.controller('Ctrl', function($scope , $location) {
+		var vm = this
+        vm.location = window.location.pathname.replace(/status.html/gi, 'data.html');
+		vm.obj = {{ obj|json|safe }}
+		vm.config = {{ obj.config |json|safe }}
+		vm.test = 'tes'
+	})
+    </script>
+</body>
+
+</html>
