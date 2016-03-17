@@ -1,4 +1,4 @@
-# express-system-status
+# Express-System-Status
 Add Routes to check the env , configs &amp; status of your system
 
 
@@ -24,7 +24,8 @@ app.use('/api/v1/system/status',
 	  auth: true,
 	  user: 'admin',
 	  pass: 'pass',
-	  extra: {}
+	  extra: {},
+	  mongoose:mongoose //Now Supporting Mongoose
 	})
 )
 ```
@@ -63,6 +64,14 @@ API
     }
     process: {,
         …
+    },
+    mongoose: {
+    	readyState: 1,
+  		closeCalled: false,
+  		hasOpened: true,
+  		listening: false,
+  		models:{…},
+  		…
     }
 }
 
@@ -73,6 +82,7 @@ Future
 - Update GUI
 - Add DB status checks
 - Refactor
+- Update Tests
 
 Change Log
 ---------------------------------
@@ -112,18 +122,17 @@ Contributing
 ### How to contribute
 
 Support and contributions from the open source community are essential for keeping
-Mean Stack JS up to date. We are always looking for the quality contributions and 
+express-system-status up to date. We are always looking for the quality contributions and 
 will be happy to accept your Pull Requests as long as those adhere to some basic rules:
 
 * Please make sure that your contribution fits well in the project's style & concept:
-  * JS Standard
-  * John Papa angular style guide
-  * Pass All Test ( once testing has been fully implement)
+* JS Standard
+* Pass All Test ( once testing has been fully implement)
 
 ### Creating an Issue
 
 Before you create a new Issue:
-* Check the [Issues](https://github.com/GreenPioneer/meanstackjs/issues) on Github to ensure one doesn't already exist.
+* Check the [Issues](https://github.com/greenpioneersolutions/express-system-status/issues) on Github to ensure one doesn't already exist.
 * Place use one of these topics in the beginning of your issue title- Contrib, Hotfix, Error, Help or Feature.
 * Clearly describe the issue, including the steps to reproduce the issue.
 * If it's a new feature, enhancement, or restructure, Explain your reasoning on why you think it should be added, as well as a particular use case.
