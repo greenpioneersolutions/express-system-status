@@ -4,7 +4,6 @@ var status = require('../index.js')
 var config = {
   mongo: 'mongodb://localhost/test'
 }
-console.log(status,'status')
 app.use('/api/v1/system/status', 
 	status({
 	  app: app,
