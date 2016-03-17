@@ -74,6 +74,14 @@ Future
 - Add DB status checks
 - Refactor
 
+Change Log
+---------------------------------
+### 0.1.0 
+- Init Release
+
+### 0.2.0 
+- Added Mongoose Support
+
 License
 ---------------------------------
 The MIT License (MIT)
