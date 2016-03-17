@@ -97,6 +97,12 @@ Change Log
 ### 0.2.0 
 - Added Mongoose Support
 
+### 0.2.1 
+- Fix Swig Path url
+
+### 0.2.2 
+- Update Index.html to have relative links
+
 License
 ---------------------------------
 The MIT License (MIT)
