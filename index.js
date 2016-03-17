@@ -28,6 +28,75 @@ status.use(express.static(path.join(__dirname, 'client/'), {
   maxAge: 31557600000
 }))
 
+function createObj (data) {
+  var obj = {
+    process: {
+      versions: process.versions,
+      arch: process.arch,
+      platform: process.platform,
+      argv: process.argv,
+      pid: process.pid,
+      release: process.release,
+      uptime: process.uptime()
+    },
+    os: {
+      EOL: os.EOL,
+      arch: os.arch(),
+      cpus: os.cpus(),
+      cpuCount: os.cpus().length,
+      endianness: os.endianness(),
+      freemem: os.freemem() / (1024 * 1024),
+      freememPercentage: os.freemem() / os.totalmem(),
+      homedir: os.homedir(),
+      hostname: os.hostname(),
+      loadavg: os.loadavg(),
+      networkInterfaces: os.networkInterfaces(),
+      platform: os.platform(),
+      release: os.release(),
+      tmpdir: os.tmpdir(),
+      totalmem: os.totalmem() / (1024 * 1024),
+      type: os.type(),
+      uptime: os.uptime()
+    },
+    dns: {
+      servers: dns.getServers()
+    },
+    global: {
+      __dirname: __dirname,
+      __filename: __filename
+    }
+  }
+  if (data.extra) {
+    obj.extra = data.extra
+  }
+  if (data.config) {
+    obj.config = data.config
+  }
+  if (data.app) {
+    obj.express = {
+      settings: data.app.settings,
+      locals: data.app.locals
+    }
+  }
+  if (data.mongoose) {
+    obj.mongoose = {
+      replica: data.mongoose.connection.replica,
+      hosts: data.mongoose.connection.hosts,
+      host: data.mongoose.connection.host,
+      port: data.mongoose.connection.port,
+      user: data.mongoose.connection.user,
+      options: data.mongoose.connection.options,
+      config: data.mongoose.connection.config,
+      name: data.mongoose.connection.name,
+      models: data.mongoose.modelSchemas,
+      readyState: data.mongoose.connection.readyState === 0 ? 0 : 1,
+      closeCalled: data.mongoose.connection._closeCalled,
+      hasOpened: data.mongoose.connection._hasOpened,
+      listening: data.mongoose.connection._listening
+    }
+  }
+  return obj
+}
 // 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
 module.exports = function (data) {
   if (data.auth) {
@@ -45,98 +114,12 @@ module.exports = function (data) {
   }
 
   status.get('/status.html', function (req, res) {
-    var obj = {
-      process: {
-        versions: process.versions,
-        arch: process.arch,
-        platform: process.platform,
-        argv: process.argv,
-        pid: process.pid,
-        release: process.release,
-        uptime: process.uptime()
-      },
-      express: {
-        settings: data.app.settings,
-        locals: data.app.locals
-      },
-      config: data.config || {},
-      os: {
-        EOL: os.EOL,
-        arch: os.arch(),
-        cpus: os.cpus(),
-        cpuCount: os.cpus().length,
-        endianness: os.endianness(),
-        freemem: os.freemem() / (1024 * 1024),
-        freememPercentage: os.freemem() / os.totalmem(),
-        homedir: os.homedir(),
-        hostname: os.hostname(),
-        loadavg: os.loadavg(),
-        networkInterfaces: os.networkInterfaces(),
-        platform: os.platform(),
-        release: os.release(),
-        tmpdir: os.tmpdir(),
-        totalmem: os.totalmem() / (1024 * 1024),
-        type: os.type(),
-        uptime: os.uptime()
-      },
-      dns: {
-        servers: dns.getServers()
-      },
-      global: {
-        __dirname: __dirname,
-        __filename: __filename
-      },
-      extra: data.extra || {}
-    }
     res.render(path.resolve('client/index.html'), {
-      obj: obj
+      obj: createObj(data)
     })
   })
   status.get('/api', function (req, res) {
-    var obj = {
-      process: {
-        versions: process.versions,
-        arch: process.arch,
-        platform: process.platform,
-        argv: process.argv,
-        pid: process.pid,
-        release: process.release,
-        uptime: process.uptime()
-      },
-      express: {
-        settings: data.app.settings,
-        locals: data.app.locals
-      },
-      config: data.config || {},
-      os: {
-        EOL: os.EOL,
-        arch: os.arch(),
-        cpus: os.cpus(),
-        cpuCount: os.cpus().length,
-        endianness: os.endianness(),
-        freemem: os.freemem() / (1024 * 1024),
-        freememPercentage: os.freemem() / os.totalmem(),
-        homedir: os.homedir(),
-        hostname: os.hostname(),
-        loadavg: os.loadavg(),
-        networkInterfaces: os.networkInterfaces(),
-        platform: os.platform(),
-        release: os.release(),
-        tmpdir: os.tmpdir(),
-        totalmem: os.totalmem() / (1024 * 1024),
-        type: os.type(),
-        uptime: os.uptime()
-      },
-      dns: {
-        servers: dns.getServers()
-      },
-      global: {
-        __dirname: __dirname,
-        __filename: __filename
-      },
-      extra: data.extra || {}
-    }
-    res.status(200).send(obj)
+    res.status(200).send(createObj(data))
   })
   return status
 }
