@@ -4,14 +4,19 @@ Add Routes to check the env , configs &amp; status of your system
 
 Installation
 --------------------
+```bash 
+npm install express-system-status --save
+```
+
+Usage
+--------------------
+
 ```javascript
 var express = require('express')
 var app = express()
 var status = require('express-system-status')
 ```
 
-Usage
---------------------
 ```javascript
 var config = {
   mongo: 'mongodb://localhost/test',
