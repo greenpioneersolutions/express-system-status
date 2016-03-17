@@ -114,7 +114,7 @@ module.exports = function (data) {
   }
 
   status.get('/status.html', function (req, res) {
-    res.render(path.resolve('client/index.html'), {
+    res.render(path.resolve(__dirname,'index.html'), {
       obj: createObj(data)
     })
   })
